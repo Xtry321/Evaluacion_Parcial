@@ -1,12 +1,16 @@
 import React from 'react';
+import type { Certificate } from '../../types';
 
-interface CertificateLinkProps {}
+interface CertificateLinkProps {
+  certificate: Certificate;
+}
 
-const CertificateLink: React.FC<CertificateLinkProps> = () => {
+const CertificateLink: React.FC<CertificateLinkProps> = ({ certificate }) => {
   return (
-    <div className="certificate-link">
-      {/* Enlace de certificado */}
-    </div>
+    <a className="certificate-link" href={certificate.certificateUrl} target="_blank" rel="noreferrer">
+      <span>{certificate.title}</span>
+      <span className="muted">Ver certificado</span>
+    </a>
   );
 };
 

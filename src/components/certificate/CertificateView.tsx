@@ -1,12 +1,25 @@
 import React from 'react';
+import type { Certificate } from '../../types';
+import CertificateLink from './CertificateLink';
 
-interface CertificateViewProps {}
+interface CertificateViewProps {
+  certificates: Certificate[];
+}
 
-const CertificateView: React.FC<CertificateViewProps> = () => {
+const CertificateView: React.FC<CertificateViewProps> = ({ certificates }) => {
   return (
-    <div className="certificate-view">
-      {/* Vista de certificado */}
-    </div>
+    <section className="card">
+      <h3>Certificaciones obtenidas</h3>
+      {certificates.length === 0 ? (
+        <p className="muted">Aun no hay certificados vinculados.</p>
+      ) : (
+        <div className="certificate-list">
+          {certificates.map((certificate) => (
+            <CertificateLink key={certificate.id} certificate={certificate} />
+          ))}
+        </div>
+      )}
+    </section>
   );
 };
 
