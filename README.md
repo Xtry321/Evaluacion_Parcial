@@ -1,0 +1,5 @@
+# Integrantes y ramas
+
+- ARAUJO CHAMPI JOSE EDUARDO - RAMA main
+- HUAYNATE ACHACHAU JOSE LUIS - RAMA Huaynate_Achachau
+- MELGAREJO GUZMAN RENZO GUSTAVO - RAMA Melgarejo
