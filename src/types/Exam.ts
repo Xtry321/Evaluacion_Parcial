@@ -5,7 +5,10 @@
 export interface Exam {
   id: string;
   title: string;
-  description?: string;
+  area: string;
+  examType: 'multiple-choice' | 'open-ended';
+  passScore: number;
+  questions: Question[];
   createdAt: string;
   updatedAt: string;
 }
@@ -14,7 +17,8 @@ export interface Question {
   id: string;
   examId: string;
   text: string;
-  type: 'multiple-choice' | 'open-ended' | 'true-false';
+  type: 'multiple-choice' | 'open-ended';
+  options?: string[];
 }
 
 export interface ExamResult {

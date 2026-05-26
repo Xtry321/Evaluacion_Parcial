@@ -40,7 +40,8 @@ button {
 }
 
 input,
-textarea {
+textarea,
+select {
   font-family: inherit;
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -50,7 +51,8 @@ textarea {
 }
 
 input:focus,
-textarea:focus {
+textarea:focus,
+select:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px rgba(231, 111, 81, 0.2);
@@ -220,6 +222,36 @@ nav a:hover {
   gap: 1rem;
 }
 
+.exam-list,
+.question-list {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.exam-card,
+.question-card {
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 1rem 1.2rem;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  background: #fff;
+}
+
+.exam-card.active {
+  border-color: var(--accent);
+  box-shadow: 0 12px 32px rgba(231, 111, 81, 0.15);
+}
+
+.exam-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: flex-end;
+}
+
 .user-card {
   border: 1px solid var(--border);
   border-radius: 16px;
@@ -296,6 +328,13 @@ nav a:hover {
   display: grid;
   gap: 0.8rem;
   margin-top: 0.8rem;
+}
+
+.row {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .muted {
