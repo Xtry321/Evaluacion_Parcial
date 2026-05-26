@@ -6,8 +6,8 @@ export interface Exam {
   id: string;
   title: string;
   description?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Question {
@@ -22,5 +22,5 @@ export interface ExamResult {
   userId: string;
   examId: string;
   score: number;
-  completedAt: Date;
+  completedAt: string;
 }

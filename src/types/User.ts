@@ -4,11 +4,14 @@
 
 export interface User {
   id: string;
+  fullName: string;
   email: string;
-  name: string;
+  documentNumber: string;
+  specialty: string;
   role: 'student' | 'teacher' | 'admin';
-  createdAt: Date;
-  updatedAt: Date;
+  publicSlug: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserProfile {

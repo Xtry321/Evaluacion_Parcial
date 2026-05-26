@@ -5,8 +5,9 @@
 export interface Certificate {
   id: string;
   userId: string;
-  examId: string;
-  issueDate: Date;
-  expiryDate?: Date;
+  examId?: string;
+  title: string;
+  issueDate: string;
+  expiryDate?: string;
   certificateUrl: string;
 }

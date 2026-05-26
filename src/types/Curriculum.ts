@@ -5,10 +5,10 @@
 export interface Curriculum {
   id: string;
   userId: string;
-  title: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
+  summary: string;
+  experiences: Experience[];
+  education: Education[];
+  updatedAt: string;
 }
 
 export interface Experience {
@@ -16,8 +16,8 @@ export interface Experience {
   curriculumId: string;
   company: string;
   position: string;
-  startDate: Date;
-  endDate?: Date;
+  startDate: string;
+  endDate?: string;
   description?: string;
 }
 
@@ -27,5 +27,5 @@ export interface Education {
   institution: string;
   degree: string;
   field: string;
-  graduationDate: Date;
+  graduationDate: string;
 }
