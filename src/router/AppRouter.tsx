@@ -17,8 +17,19 @@ const ProtectedRoute: React.FC = () => {
   return <Outlet />;
 };
 
+const AdminRoute: React.FC = () => {
+  const { isAuthenticated, isAdmin } = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  if (!isAdmin) {
+    return <Navigate to="/dashboard" replace />;
+  }
+  return <Outlet />;
+};
+
 const Layout: React.FC = () => {
-  const { isAuthenticated, currentUser, logout } = useAuth();
+  const { isAuthenticated, currentUser, isAdmin, logout } = useAuth();
 
   return (
     <div className="app-shell">
@@ -34,7 +45,7 @@ const Layout: React.FC = () => {
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/profile">Mi perfil</Link>
           <Link to="/exam">Examen</Link>
-          <Link to="/committee">Comite</Link>
+          {isAdmin ? <Link to="/committee">Comite</Link> : null}
         </nav>
         <div className="auth-actions">
           {isAuthenticated ? (
@@ -72,7 +83,9 @@ const AppRouter: React.FC = () => {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/exam" element={<UserExamPage />} />
-            <Route path="/committee" element={<CommitteePage />} />
+            <Route element={<AdminRoute />}>
+              <Route path="/committee" element={<CommitteePage />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

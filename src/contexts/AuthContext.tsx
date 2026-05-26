@@ -5,6 +5,7 @@ import { userService } from '../services/userService';
 interface AuthContextType {
   currentUser: User | null;
   isAuthenticated: boolean;
+  isAdmin: boolean;
   login: (email: string, documentNumber: string) => { ok: boolean; error?: string };
   register: (data: Pick<User, 'fullName' | 'email' | 'documentNumber' | 'specialty'>) => {
     ok: boolean;
@@ -19,6 +20,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const adminEmails = ['admin@demo.com', 'comite@demo.com'];
 
   const refreshCurrentUser = () => {
     const currentUserId = userService.getCurrentUserId();
@@ -41,6 +43,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { ok: false, error: 'Credenciales invalidas.' };
     }
 
+    const normalizedEmail = email.trim().toLowerCase();
+    if (adminEmails.includes(normalizedEmail) && user.role !== 'admin') {
+      const result = userService.updateUser(user.id, { role: 'admin' });
+      if (result.ok && result.user) {
+        setCurrentUser(result.user);
+      }
+    }
+
     userService.setCurrentUserId(user.id);
     setCurrentUser(user);
     return { ok: true };
@@ -52,9 +62,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return { ok: false, error: result.error };
     }
 
-    userService.setCurrentUserId(result.user.id);
-    setCurrentUser(result.user);
-    return { ok: true, user: result.user };
+    const normalizedEmail = data.email.trim().toLowerCase();
+    let user = result.user;
+    if (adminEmails.includes(normalizedEmail)) {
+      const updated = userService.updateUser(user.id, { role: 'admin' });
+      if (updated.ok && updated.user) {
+        user = updated.user;
+      }
+    }
+
+    userService.setCurrentUserId(user.id);
+    setCurrentUser(user);
+    return { ok: true, user };
   };
 
   const logout = () => {
@@ -67,6 +86,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         currentUser,
         isAuthenticated: Boolean(currentUser),
+        isAdmin: currentUser?.role === 'admin',
         login,
         register,
         logout,
