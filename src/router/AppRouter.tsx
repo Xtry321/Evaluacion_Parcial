@@ -7,6 +7,7 @@ import UserExamPage from '../pages/UserExamPage';
 import DashboardPage from '../pages/DashboardPage';
 import LoginPage from '../pages/LoginPage';
 import ProfilePage from '../pages/ProfilePage';
+import CertificatePage from '../pages/CertificatePage';
 
 const AppRouter: React.FC = () => {
   return (
@@ -17,6 +18,7 @@ const AppRouter: React.FC = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/exam" element={<UserExamPage />} />
         <Route path="/committee" element={<CommitteePage />} />
+        <Route path="/certificate/:certificateId" element={<CertificatePage />} />
       </Routes>
     </BrowserRouter>
   );
