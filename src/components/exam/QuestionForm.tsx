@@ -12,6 +12,7 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ examId, question, onSave, o
   const [text, setText] = useState('');
   const [type, setType] = useState<'multiple-choice' | 'open-ended'>('multiple-choice');
   const [optionsText, setOptionsText] = useState('');
+  const [correctOptionIndex, setCorrectOptionIndex] = useState(0);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -19,11 +20,13 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ examId, question, onSave, o
       setText(question.text);
       setType(question.type);
       setOptionsText((question.options ?? []).join('\n'));
+      setCorrectOptionIndex(question.correctOptionIndex ?? 0);
       return;
     }
     setText('');
     setType('multiple-choice');
     setOptionsText('');
+    setCorrectOptionIndex(0);
   }, [question, examId]);
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -45,12 +48,18 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ examId, question, onSave, o
         setError('Agrega al menos dos opciones.');
         return;
       }
+
+      if (correctOptionIndex < 0 || correctOptionIndex >= options.length) {
+        setError('Selecciona una opcion correcta valida.');
+        return;
+      }
     }
 
     onSave({
       text: text.trim(),
       type,
       options,
+      correctOptionIndex: type === 'multiple-choice' ? correctOptionIndex : undefined,
     });
   };
 
@@ -69,15 +78,34 @@ const QuestionForm: React.FC<QuestionFormProps> = ({ examId, question, onSave, o
         </select>
       </label>
       {type === 'multiple-choice' ? (
-        <label>
-          Opciones (una por linea)
-          <textarea
-            value={optionsText}
-            onChange={(event) => setOptionsText(event.target.value)}
-            rows={4}
-            placeholder="Opcion 1\nOpcion 2\nOpcion 3"
-          />
-        </label>
+        <>
+          <label>
+            Opciones (una por linea)
+            <textarea
+              value={optionsText}
+              onChange={(event) => setOptionsText(event.target.value)}
+              rows={4}
+              placeholder="Opcion 1\nOpcion 2\nOpcion 3"
+            />
+          </label>
+          <label>
+            Opcion correcta
+            <select
+              value={correctOptionIndex}
+              onChange={(event) => setCorrectOptionIndex(Number(event.target.value))}
+            >
+              {optionsText
+                .split('\n')
+                .map((item) => item.trim())
+                .filter(Boolean)
+                .map((option, index) => (
+                  <option key={`${option}-${index}`} value={index}>
+                    {option}
+                  </option>
+                ))}
+            </select>
+          </label>
+        </>
       ) : null}
       <div className="row">
         <button type="submit" className="primary">

@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Link, Navigate, Outlet, Route, Routes } from 'react-router-dom';
 import PublicProfile from '../components/user/PublicProfile';
 import { useAuth } from '../contexts/AuthContext';
+import CertificatePage from '../pages/CertificatePage';
 import CommitteePage from '../pages/CommitteePage';
 import DashboardPage from '../pages/DashboardPage';
 import LoginPage from '../pages/LoginPage';
@@ -65,6 +66,7 @@ const AppRouter: React.FC = () => {
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/u/:slug" element={<PublicProfile />} />
+          <Route path="/certificates/:id" element={<CertificatePage />} />
 
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<DashboardPage />} />

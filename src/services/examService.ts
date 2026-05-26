@@ -2,13 +2,15 @@
  * Servicio para gestionar exámenes
  */
 
-import type { Exam, ExamResult, Question } from '../types';
+import type { Exam, ExamAttempt, ExamResult, Question } from '../types';
 import { storageService } from './storageService';
 
 const EXAMS_KEY = 'exams';
+const EXAM_ATTEMPTS_KEY = 'examAttempts';
 const EXAM_RESULTS_KEY = 'examResults';
 
 const createId = () => `r_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
+const createAttemptId = () => `a_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
 const createExamId = () => `e_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
 const createQuestionId = () => `q_${Date.now().toString(36)}${Math.random().toString(36).slice(2, 8)}`;
 
@@ -25,6 +27,21 @@ const readExams = (): Exam[] => {
 
 const writeExams = (exams: Exam[]) => {
   storageService.setItem(EXAMS_KEY, JSON.stringify(exams));
+};
+
+const readAttempts = (): ExamAttempt[] => {
+  const raw = storageService.getItem(EXAM_ATTEMPTS_KEY);
+  if (!raw) return [];
+  try {
+    return JSON.parse(raw) as ExamAttempt[];
+  } catch (error) {
+    console.error(error);
+    return [];
+  }
+};
+
+const writeAttempts = (attempts: ExamAttempt[]) => {
+  storageService.setItem(EXAM_ATTEMPTS_KEY, JSON.stringify(attempts));
 };
 
 const readResults = (): ExamResult[] => {
@@ -124,6 +141,22 @@ export const examService = {
     };
     writeExams(exams);
     return exams[index];
+  },
+
+  getAttemptsByUserId: (userId: string) => readAttempts().filter((attempt) => attempt.userId === userId),
+
+  getAttemptByUserExam: (userId: string, examId: string) =>
+    readAttempts().find((attempt) => attempt.userId === userId && attempt.examId === examId),
+
+  saveAttempt: (data: Omit<ExamAttempt, 'id' | 'submittedAt'>) => {
+    const attempts = readAttempts();
+    const attempt: ExamAttempt = {
+      ...data,
+      id: createAttemptId(),
+      submittedAt: new Date().toISOString(),
+    };
+    writeAttempts([...attempts, attempt]);
+    return attempt;
   },
 
   getResultsByUserId: (userId: string) => readResults().filter((result) => result.userId === userId),
