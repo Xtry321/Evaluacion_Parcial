@@ -27,16 +27,29 @@ const writeCertificates = (certificates: Certificate[]) => {
 export const certificateService = {
   getCertificates: () => readCertificates(),
 
+  getCertificateById: (id: string) => readCertificates().find((certificate) => certificate.id === id),
+
   getCertificatesByUserId: (userId: string) =>
     readCertificates().filter((certificate) => certificate.userId === userId),
 
-  addCertificate: (data: Omit<Certificate, 'id' | 'issueDate'>) => {
+  getCertificateByUserExam: (userId: string, examId: string) =>
+    readCertificates().find(
+      (certificate) => certificate.userId === userId && certificate.examId === examId,
+    ),
+
+  addCertificate: (
+    data: Omit<Certificate, 'id' | 'issueDate' | 'certificateUrl'> & { certificateUrl?: string },
+  ) => {
     const certificates = readCertificates();
     const certificate: Certificate = {
       ...data,
       id: createId(),
       issueDate: new Date().toISOString(),
+      certificateUrl: data.certificateUrl ?? '',
     };
+    if (!certificate.certificateUrl) {
+      certificate.certificateUrl = `/certificates/${certificate.id}`;
+    }
     writeCertificates([...certificates, certificate]);
     return certificate;
   },

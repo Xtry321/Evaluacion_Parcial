@@ -143,6 +143,17 @@ nav a:hover {
   box-shadow: var(--shadow);
 }
 
+.certificate-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 2.5rem;
+  border-radius: var(--radius);
+  background: linear-gradient(130deg, #fff 0%, #f6f1e8 50%, #efe1d4 100%);
+  box-shadow: var(--shadow);
+}
+
 .hero.compact {
   padding: 1.8rem 2.2rem;
 }
@@ -250,6 +261,36 @@ nav a:hover {
   flex-direction: column;
   gap: 0.5rem;
   align-items: flex-end;
+}
+
+.option-list {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  border: 1px solid var(--border);
+  color: var(--muted);
+}
+
+.pill.success {
+  border-color: rgba(42, 157, 143, 0.4);
+  color: var(--accent-2);
 }
 
 .user-card {
@@ -367,6 +408,11 @@ nav a:hover {
   }
 
   .user-meta {
+    align-items: flex-start;
+  }
+
+  .certificate-hero {
+    flex-direction: column;
     align-items: flex-start;
   }
 }

@@ -19,6 +19,22 @@ export interface Question {
   text: string;
   type: 'multiple-choice' | 'open-ended';
   options?: string[];
+  correctOptionIndex?: number;
+}
+
+export interface ExamAttemptAnswer {
+  questionId: string;
+  answer: string;
+}
+
+export interface ExamAttempt {
+  id: string;
+  userId: string;
+  examId: string;
+  answers: ExamAttemptAnswer[];
+  score: number;
+  passed: boolean;
+  submittedAt: string;
 }
 
 export interface ExamResult {
@@ -26,5 +42,6 @@ export interface ExamResult {
   userId: string;
   examId: string;
   score: number;
+  passed: boolean;
   completedAt: string;
 }
