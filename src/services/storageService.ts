@@ -1,0 +1,10 @@
+/**
+ * Servicio wrapper para LocalStorage
+ */
+
+export const storageService = {
+  getItem: (key: string) => localStorage.getItem(key),
+  setItem: (key: string, value: string) => localStorage.setItem(key, value),
+  removeItem: (key: string) => localStorage.removeItem(key),
+  clear: () => localStorage.clear(),
+};
